@@ -23,7 +23,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-  background-color: #ffff;
+  background-color: #E7EDFF;
   overflow-x: hidden;
   justify-self: center;
 }
