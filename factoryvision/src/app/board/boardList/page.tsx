@@ -43,6 +43,9 @@ const BoardPage: React.FC = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  const currentPage = 2;
+  const totalPages = 5;
+
   return (
     <div className="flex-center">
       <TopBar />
@@ -52,9 +55,11 @@ const BoardPage: React.FC = () => {
             <div className="text-blue-700 border-b-4 text-sm px-4 py-2 w-30 border-blue-700 text-center">
               게시글 목록
             </div>
-            <button className="bg-blue-700 rounded-md px-4 py-2 text-sm text-white">
-              글 작성
-            </button>
+            <Link href="/board/boardCreate">
+              <button className="bg-blue-700 rounded-md px-4 py-2 text-sm text-white">
+                글 작성
+              </button>
+            </Link>
           </div>
           <div className="boardList border-b border-gray-400 pb-5">
             <table className="hover:table-auto w-full mt-5 text-gray-400">
@@ -80,6 +85,28 @@ const BoardPage: React.FC = () => {
             </table>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
+        {currentPage > 1 && <span> {"<"} Previous </span>}
+
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+          (pageNumber) => (
+            <span key={pageNumber}>
+              <Link href={`/${pageNumber}`}>
+                <div
+                  style={{
+                    fontWeight: currentPage === pageNumber ? "bold" : "normal",
+                  }}
+                >
+                  {pageNumber}
+                </div>
+              </Link>
+            </span>
+          )
+        )}
+
+        {currentPage < totalPages && <span> Next {">"} </span>}
       </div>
     </div>
   );
