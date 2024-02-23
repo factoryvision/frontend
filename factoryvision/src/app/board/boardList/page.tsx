@@ -7,8 +7,8 @@ import { Sidebar } from "semantic-ui-react";
 
 const TopBar = () => {
   return (
-    <div className="flex justify-between items-center p-4">
-      <img src="/logo.png" alt="visionfactory" className="w-70 h-10" />
+    <div className="flex justify-between items-center p-4 bg-white">
+      <img src="/mainlogo.png" alt="visionfactory" className="w-70 h-10" />
 
       <div className="flex items-center space-x-4  mr-10">
         <Link href="/user/login">
@@ -33,7 +33,7 @@ interface Board {
   createdOn: string;
 }
 
-const BoardPage: React.FC = () => {
+const boardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
 
   useEffect(() => {
@@ -50,7 +50,8 @@ const BoardPage: React.FC = () => {
     <div className="flex-center">
       <TopBar />
       <div className="flex flex-1 justify-center items-center ">
-        <div className="bg-white rounded-lg p-5 md:container md:mx-auto bg-[#E6EFF5]">
+        <div className="rounded-lg p-5 md:container md:mx-auto]">
+          {/*  */}
           <div className="rid gap-x-8 gap-y-4 flex place-content-between">
             <div className="text-blue-700 border-b-4 text-sm px-4 py-2 w-30 border-blue-700 text-center">
               게시글 목록
@@ -61,8 +62,9 @@ const BoardPage: React.FC = () => {
               </button>
             </Link>
           </div>
-          <div className="boardList border-b border-gray-400 pb-5">
-            <table className="hover:table-auto w-full mt-5 text-gray-400">
+          {/*  */}
+          <div className="mt-10 boardList border-b border-blue-400 p-2 bg-white rounded-lg font-thin">
+            <table className="hover:table-auto w-full text-blue-400">
               <thead>
                 <tr>
                   <th className="px-4 py-2">순서</th>
@@ -71,7 +73,7 @@ const BoardPage: React.FC = () => {
                   <th className="px-4 py-2">조회수</th>
                   <th className="px-4 py-2">작성일자</th>
                 </tr>
-                <tr className="underline "></tr>
+                <tr className="underline"></tr>
               </thead>
               <tbody>
                 {boardList.map((board) => (
@@ -112,4 +114,4 @@ const BoardPage: React.FC = () => {
   );
 };
 
-export default BoardPage;
+export default boardList;
