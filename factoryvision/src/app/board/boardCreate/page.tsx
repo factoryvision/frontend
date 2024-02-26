@@ -61,7 +61,7 @@ export default function boardCreate() {
                 저장
               </button>
               <button className="bg-blue-700 rounded-md p-4 px-4 py-2 text-sm text-white">
-                취소
+                <Link href="board/boardList">취소</Link>
               </button>
             </div>
           </div>
