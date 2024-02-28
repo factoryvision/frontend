@@ -1,12 +1,9 @@
-// 메인페이지
-
-import Sidebar from "./components/sidebar";
 import Link from "next/link";
 
-const TopBar = () => {
+const Header = () => {
   return (
     <div className="flex justify-between items-center p-4">
-      <img src="/mainlogo.png" alt="visionfactory" className="w-75 h-10" />
+      {/* <img src="/mainlogo.png" alt="visionfactory" className="w-70 h-10" /> */}
 
       <div className="flex items-center space-x-4  mr-10">
         <Link href="/user/login">
@@ -24,11 +21,4 @@ const TopBar = () => {
   );
 };
 
-export default function Main() {
-  return (
-    <div>
-      <TopBar />
-      <Sidebar />
-    </div>
-  );
-}
+export default Header;
