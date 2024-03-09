@@ -4,48 +4,26 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
-import { Sidebar } from "semantic-ui-react";
-
-const TopBar = () => {
-  return (
-    <div className="flex justify-between items-center p-4 bg-white">
-      <img src="/mainlogo.png" alt="visionfactory" className="w-70 h-10" />
-
-      <div className="flex items-center space-x-4  mr-10">
-        <Link href="/user/login">
-          <div className="text-white rounded-md px-4 py-2 text-sm bg-blue-500 w-32 text-center drop-shadow-lg">
-            로그인
-          </div>
-        </Link>
-        <Link href="user/signup">
-          <div className="text-white rounded-md px-4 py-2 text-sm bg-blue-500 w-32 text-center drop-shadow-lg">
-            회원가입
-          </div>
-        </Link>
-      </div>
-    </div>
-  );
-};
+import Sidebar from "@/app/components/sidebar";
+import Header from "@/app/components/header";
 
 const currentPage = 2;
 const totalPages = 5;
 export default function boardCreate() {
   return (
-    <div className="flex-center">
-      <div className="bg-white">
-        <TopBar />
-      </div>
-
-      <div className="flex flex-1 justify-center items-center ">
-        <div className="rounded-lg p-5 md:container md:mx-auto]">
-          <div className="rid gap-x-8 gap-y-4 flex place-content-between ">
+    <div className="flex flex-col h-screen">
+      <Header />
+      <div className="flex flex-1">
+        <Sidebar />
+        <div className="rounded-lg px-10 p-5 md:container md:mx-auto]">
+          <div className="rid gap-x-8 gap-y-4 flex py-20 place-content-between ">
             {/*  */}
-            <div className="text-blue-700 border-b-4 text-sm px-4 py-2 w-30 border-blue-700 text-center">
-              게시글 작성
+            <div className="text-blue-700 border-b-4 text-sm px-4 w-30 border-blue-700 text-center">
+              게시글 수정
             </div>
             {/*  */}
           </div>
-          <div className="mt-10 bg-white rounded-lg border-gray-400  bg-white rounded-lg justify-center items-center p-4 space-y-4">
+          <div className="bg-white rounded-lg border-gray-400  bg-white rounded-lg justify-center items-center p-4 space-y-4">
             <div>글제목</div>
             <input
               className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
@@ -62,7 +40,7 @@ export default function boardCreate() {
                 수정
               </button>
               <button className="bg-blue-700 rounded-md p-4 px-4 py-2 text-sm text-white">
-                <Link href="board/boardList">취소</Link>
+                <Link href="">삭제</Link>
               </button>
             </div>
           </div>
