@@ -1,0 +1,101 @@
+import Link from 'next/link';
+import { ChangeEvent, useState } from "react";
+
+const MenuBar = () => {
+    return (         
+    <div className="bg-white h-screen lg:w-60 flex flex-col justify-start">
+        <img src="/logo.png" className="w-full" />
+        <div className="text-blue text-xl p-4">메뉴1</div>
+        <div className="text-blue text-xl p-4">메뉴2</div>        
+      </div>
+    );
+};
+
+const TopBar = () => {
+    return (         
+      <div className="bg-white w-screen lg:w-300 lg:h-16 flex flex-col items-center justify-center">
+        상단 바
+      </div>
+    );
+};
+
+
+export default function LoginPage() {
+
+    const currentPage = 2;
+    const totalPages = 5
+    
+    return (
+        <div className="flex flex-col">
+
+            <div className="flex flex-col">                
+                <TopBar/>
+            </div>
+
+            <div className="flex flex-row">
+                
+                <div className="flex flex-col">
+                    <MenuBar/>
+                </div>
+
+
+                <div className="flex flex-col p-3">
+                    
+                    {/* 여기에 화면 구현 */}                   
+                    
+
+                    <div>
+                        <img src="/realtime.png" className="w-[8rem] mt-3 ml-3" />
+                    </div>
+
+                    <div className='bg-white w-[45rem] h-[20rem] mt-3 ml-10'>
+                        영상
+                    </div>
+
+                    <div className="text-blue-500 mt-5 ml-10 bold">출력결과</div>
+
+                    <div className='flex flex-col bg-white w-[60rem] h-[20rem] mt-2 ml-10'>
+                        <div className='text-gray-500 flex flex-row gap-20  ml-7 mt-5'> 
+                            <span>상태</span>  <span> </span>  <span>정확도</span> <span>시간</span> <span>안내메세지</span>
+                        </div>
+                        <hr className="border-gray-300 mt-3" />
+                    </div>
+
+                    
+                    <div className = "flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
+                        {currentPage > 1 && (
+                            <span> {'<'} Previous </span>
+                        )}
+
+                        {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+                            <span key={pageNumber}>
+                                <Link href={`/${pageNumber}`}>
+                                    <div style={{
+                                            fontWeight: currentPage === pageNumber ? 'bold': 'normal',
+                                        }}
+                                    >
+                                        {pageNumber}
+                                    </div>
+                                </Link>
+                            </span>
+                            )
+                        )}    
+
+                        {currentPage < totalPages && (
+                            <span> Next {'>'} </span>
+                        )}
+
+                    </div>
+                    
+                    
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+       
+    );
+}
