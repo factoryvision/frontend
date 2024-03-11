@@ -15,7 +15,7 @@ export default function boardCreate() {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="rounded-lg px-10 p-5 md:container md:mx-auto]">
+        <div className="flex-1 rounded-lg px-10 p-5 md:container md:mx-auto]">
           <div className="rid gap-x-8 gap-y-4 flex py-20 place-content-between ">
             {/*  */}
             <div className="text-blue-700 border-b-4 text-sm px-4 w-30 border-blue-700 text-center">

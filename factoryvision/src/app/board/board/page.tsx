@@ -1,39 +1,3 @@
-// // 게시글 보기
-// "use client";
-// import React from "react";
-// import Sidebar from "@/app/components/sidebar";
-// import Header from "@/app/components/header";
-
-// interface BoardProps {
-//   id: number;
-//   title: string;
-//   content: string;
-//   createdOn: string;
-// }
-
-// const Board: React.FC<BoardProps> = ({ id, title, content, createdOn }) => {
-//   return (
-//     <div className="flex">
-//       <Sidebar />
-//       <div className="flex-1">
-//         <Header />
-//         <div className="rounded-lg px-10 p-5 md:container md:mx-auto]">
-//           {/*  */}
-//           <div className="rid gap-x-8 gap-y-4 flex py-20 place-content-between">
-//             <div className="border p-4 mb-4">
-//               <h2 className="text-lg font-bold">{title}</h2>
-//               <p className="text-sm text-gray-600">작성일자: {createdOn}</p>
-//               <p className="mt-2">{content}</p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Board;
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -55,7 +19,7 @@ const Board: React.FC<BoardProps> = ({ id, title, content, createdOn }) => {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="rounded-lg px-10 p-5 md:container md:mx-auto]">
+        <div className="flex-1 rounded-lg px-10 p-5 md:container md:mx-auto]">
           <div className="rid gap-x-8 gap-y-4 flex py-20 place-content-between ">
             {/*  */}
             <div className="text-blue-700 border-b-4 text-sm px-4 w-30 border-blue-700 text-center">

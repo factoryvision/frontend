@@ -38,17 +38,14 @@ const Home = () => {
           </div>
           <div className="rid flex-col py-20 place-content-between">
             {/* 영상업로드 버튼 */}
-            <div
-              className="flex flex-col justify-center items-center px-10 "
-              onClick={handleClick}
-            >
-              <div className="rid w-[500px] h-[200px] text-center bg-white flex flex-nowrap place-content-center rounded-lg items-center cursor-pointer">
+            <div className="flex flex-col justify-center items-center px-10 ">
+              <div className="rid w-[500px] h-[200px] text-center bg-white flex flex-nowrap place-content-center rounded-lg items-center ">
                 <form>
-                  <div onClick={handleClick}>
+                  <div className="flex flex-col px-10 " onClick={handleClick}>
                     <img
                       src="../imageupload.png"
                       alt="logo"
-                      className="w-25 h-25"
+                      className="w-25 h-25 cursor-pointer"
                     />
                   </div>
                   <input
