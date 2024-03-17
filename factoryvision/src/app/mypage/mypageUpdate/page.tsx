@@ -30,31 +30,53 @@ const myPageMain = () => {
               <div>
                 <div className="flex flex-col">
                   <div className="py-4">이름</div>
-                  <div className="py-4">니콜라</div>
+                  <input
+                    className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
+                    type="text"
+                    placeholder="이름을 입력해주세요."
+                  />
                   <div className="py-4">닉네임</div>
-                  <div className="py-4">nicola</div>
+                  <input
+                    className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
+                    type="text"
+                    placeholder="닉네임을 입력해주세요."
+                  />
 
                   <div className="py-4">아이디</div>
-                  <div className="py-4">mynameis?</div>
+                  <input
+                    className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
+                    type="text"
+                    placeholder="아이디를 입력해주세요."
+                  />
                 </div>
               </div>
 
               <div>
                 <div className="flex flex-col">
                   <div className="py-4">이메일</div>
-                  <div className="py-4">you@example.com</div>
+                  <input
+                    className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
+                    type="text"
+                    placeholder="you@example.com."
+                  />
                   <div className="py-4">비밀번호</div>
-                  <div className="py-4">**************</div>
+                  <input
+                    className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
+                    type="text"
+                    placeholder="영문, 숫자를 조합한 13자리를 입력해주세요."
+                  />
                   <div className="py-4">전화번호</div>
-                  <div className="py-4">010-0000-0000</div>
+                  <input
+                    className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
+                    type="text"
+                    placeholder="11자리의 올바른 숫자를 입력해주세요."
+                  />
                 </div>
               </div>
             </div>
-            <Link href="/mypage/mypageUpdate">
-              <button className="text-white rounded-md px-4 py-2 text-sm bg-[#1814F3] w-32 text-center drop-shadow-lg mt-4">
-                Edit
-              </button>
-            </Link>
+            <button className="text-white rounded-md px-4 py-2 text-sm bg-[#1814F3] w-32 text-center drop-shadow-lg mt-4">
+              Save
+            </button>
           </div>
         </div>
         {/*  */}
