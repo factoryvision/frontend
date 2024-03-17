@@ -22,7 +22,7 @@ export default function LoginPage() {
         <div className="bg-white rounded-lg w-[370px] h-[450px] p-5">
           <div className="absolute mt-1 flex ml-[10rem] text-[13px]">
             <div className="h-screen mr-3">계정이 없으신가요</div>
-            <Link href="/register">
+            <Link href="/user/register">
               <div className="text-blue-500 hover:underline text-[15px]">
                 계정만들기
               </div>
