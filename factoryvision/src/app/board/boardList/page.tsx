@@ -14,13 +14,7 @@ interface Board {
 
 const boardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get<Board[]>("/api/factoryvision/board")
-  //     .then((res) => setBoardList(res.data))
-  //     .catch((error) => console.log(error));
-  // }, []);
+ 
 
   const currentPage = 2;
   const totalPages = 5;
