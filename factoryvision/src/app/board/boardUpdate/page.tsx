@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 

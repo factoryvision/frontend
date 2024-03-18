@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { ChangeEvent, useState } from "react";
+import Sidebar from "@/app/components/sidebar";
+import Header from "@/app/components/header";
 
 const MenuBar = () => {
     return (         

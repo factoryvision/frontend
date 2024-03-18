@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 
@@ -16,12 +15,12 @@ interface Board {
 const boardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
 
-  useEffect(() => {
-    axios
-      .get<Board[]>("/api/factoryvision/board")
-      .then((res) => setBoardList(res.data))
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get<Board[]>("/api/factoryvision/board")
+  //     .then((res) => setBoardList(res.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   const currentPage = 2;
   const totalPages = 5;
