@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
+import { useRouter } from "next/navigation";
+
+
 
 interface Board {
   id: number;
@@ -15,9 +18,42 @@ interface Board {
 const boardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
  
+  const [keyword, setKeyword] = useState<string>("");
 
   const currentPage = 2;
   const totalPages = 5;
+
+  const router = useRouter();
+  
+
+  useEffect(() => {
+    // 게시글 데이터를 불러오는 함수
+    const fetchBoardList = async () => {
+      try {
+        // 게시글 데이터를 가져오는 API 호출 (예시)
+        const response = await fetch("http://localhost:8080/factoryvision/board",{
+          headers: {
+            // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
+            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODM1NjAxLCJleHAiOjE3MTA4MzkyMDF9.jesfo2SSS6OiSSTPjDLLGBEmJ5BQIjVugHCoPYw9My4`
+          }
+        });
+        console.log("response",response)
+
+        if (!response.ok) {
+          throw new Error("게시글 데이터를 불러오는데 실패했습니다.");
+        }
+        const data = await response.json();
+        setBoardList(data); // 가져온 데이터를 상태에 설정
+      } catch (error) {
+        console.error("게시글 데이터를 에러:", error);
+      }
+    };
+
+    fetchBoardList(); // 함수 호출하여 데이터 불러오기
+  }, []); 
+
+  
+
 
   return (
     <div className="flex flex-col">
@@ -53,7 +89,9 @@ const boardList: React.FC = () => {
                 {boardList.map((board) => (
                   <tr key={board.id}>
                     <td className="border px-4 py-2">{board.id}</td>
-                    <td className="border px-4 py-2">{board.title}</td>
+                    <td className="border px-4 py-2" onClick={()=> router.push(`/board/boardDetail/${board.id}`)}>
+                     {board.title}
+                    </td>
                     <td className="border px-4 py-2">{board.createdOn}</td>
                   </tr>
                 ))}

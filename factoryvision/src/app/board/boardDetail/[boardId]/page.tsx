@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
+import { GetServerSideProps } from 'next';
+
+
 
 interface BoardProps {
   id: number;
@@ -12,7 +15,36 @@ interface BoardProps {
   createdOn: string;
 }
 
-const Board: React.FC<BoardProps> = ({ id, title, content, createdOn }) => {
+
+const content = "test";
+
+
+export default function BoardDetail({
+  params,
+}: {
+  params: {boardId: string};
+}){  
+  const id = params.boardId;
+  const [boatdTitle, setBoardTitle] = useState("");
+  const [boatdContent, setboatdContent] = useState("");
+  console.log("boardId param",id)
+
+  useEffect(()=> {
+    fetch(`http://localhost:8080/factoryvision/board/${id}`,{
+      headers: {
+        // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
+        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODM1NjAxLCJleHAiOjE3MTA4MzkyMDF9.jesfo2SSS6OiSSTPjDLLGBEmJ5BQIjVugHCoPYw9My4`
+      },
+      method: "GET",
+    })
+     .then((Response) => Response.json())
+     .then((data) => {
+      console.log('boardDetail data',data)
+      setBoardTitle(data.title);
+      setboatdContent(data.content);
+    });
+  }, []);
+
   return (
     <div className="flex flex-col">
       <Header />
@@ -28,9 +60,9 @@ const Board: React.FC<BoardProps> = ({ id, title, content, createdOn }) => {
           </div>
           <div className="bg-white rounded-lg border-gray-400  bg-white rounded-lg justify-center items-center p-4 space-y-4">
             <div>제목</div>
-            <h2 className="text-lg font-bold">내용{title}</h2>
+            <h2 className="text-lg font-bold">{boatdTitle}</h2>
             <div>내용</div>
-            <h2 className="text-lg font-bold">내용{content}</h2>
+            <h2 className="text-lg font-bold">{boatdContent}</h2>
             {/* 댓글쪽 */}
             <div className="pt-5">
               <div>
@@ -56,5 +88,12 @@ const Board: React.FC<BoardProps> = ({ id, title, content, createdOn }) => {
       </div>
     </div>
   );
-};
-export default Board;
+}
+
+
+
+
+
+// export default Board;
+
+
