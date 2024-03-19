@@ -34,7 +34,7 @@ const boardList: React.FC = () => {
         const response = await fetch("http://localhost:8080/factoryvision/board",{
           headers: {
             // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
-            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODM1NjAxLCJleHAiOjE3MTA4MzkyMDF9.jesfo2SSS6OiSSTPjDLLGBEmJ5BQIjVugHCoPYw9My4`
+            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODQ5NTczLCJleHAiOjE3MTA4ODU1NzN9.gjPovjoR1LO2bgqxqIJTWPk0mAk6tWY5aPM4Uf3oiqU`
           }
         });
         console.log("response",response)
