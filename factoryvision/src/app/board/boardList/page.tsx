@@ -32,12 +32,12 @@ const boardList: React.FC = () => {
       try {
         // 게시글 데이터를 가져오는 API 호출 (예시)
         const response = await fetch("http://localhost:8080/factoryvision/board",{
-          headers: {
-            // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
-            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODQ5NTczLCJleHAiOjE3MTA4ODU1NzN9.gjPovjoR1LO2bgqxqIJTWPk0mAk6tWY5aPM4Uf3oiqU`
+          headers: {            
+            "Authorization": `${localStorage.getItem("access-token")}`            
           }
         });
-        console.log("response",response)
+        console.log("response",response);
+        console.log("localstrage 토큰 받아오기", localStorage.getItem("access-token"));
 
         if (!response.ok) {
           throw new Error("게시글 데이터를 불러오는데 실패했습니다.");

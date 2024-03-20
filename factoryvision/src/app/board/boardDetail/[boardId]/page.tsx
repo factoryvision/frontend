@@ -34,11 +34,11 @@ export default function BoardDetail({
 
 
   useEffect(() => {
-    // 사용자 정보 가져오는 API 호출
+    // 사용자 정보 가져오는 API 호출   여기를 현재 사용자로
     console.log("userid",userId);
-    fetch(`http://localhost:8080/factoryvision/userInfo/1`, {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODQ5NTczLCJleHAiOjE3MTA4ODU1NzN9.gjPovjoR1LO2bgqxqIJTWPk0mAk6tWY5aPM4Uf3oiqU`,
+    fetch(`http://localhost:8080/factoryvision/tokenInfo`, {
+      headers: {        
+        "Authorization": `${localStorage.getItem("access-token")}`        
       },
       method: "GET",
     })
@@ -55,8 +55,7 @@ export default function BoardDetail({
     //게시물 상세 정보 api 호출
     fetch(`http://localhost:8080/factoryvision/board/${id}`,{
       headers: {
-        // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
-        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODQ5NTczLCJleHAiOjE3MTA4ODU1NzN9.gjPovjoR1LO2bgqxqIJTWPk0mAk6tWY5aPM4Uf3oiqU`
+        "Authorization": `${localStorage.getItem("access-token")}`        
       },
       method: "GET",
     })
@@ -70,8 +69,7 @@ export default function BoardDetail({
 
     fetch(`http://localhost:8080/factoryvision/board/${id}/comment`,{
       headers: {
-        // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
-        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODQ5NTczLCJleHAiOjE3MTA4ODU1NzN9.gjPovjoR1LO2bgqxqIJTWPk0mAk6tWY5aPM4Uf3oiqU`
+        "Authorization": `${localStorage.getItem("access-token")}`        
       },
       method: "GET",
     })
@@ -96,7 +94,7 @@ export default function BoardDetail({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwODQ5NTczLCJleHAiOjE3MTA4ODU1NzN9.gjPovjoR1LO2bgqxqIJTWPk0mAk6tWY5aPM4Uf3oiqU`
+        "Authorization": `${localStorage.getItem("access-token")}`        
       },
       body: JSON.stringify({ 
         content: comment,
