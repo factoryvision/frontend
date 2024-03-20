@@ -29,9 +29,7 @@ export default function boardCreate() {
       method: "post",
       headers:{
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${localStorage.getItem("access-token")}`
-        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoIjoiQURNSU4iLCJzdWIiOiJ0ZXN0IiwiaWF0IjoxNzEwNzQ5OTIyLCJleHAiOjE3MTA3NTM1MjJ9.4iLDsTB3czGKvUXJOk8vkMNUlilJa2RVb_j0zePwftk`
-        
+        "Authorization": `${localStorage.getItem("access-token")}`        
       },
       body: JSON.stringify({
         "userId": 1,
