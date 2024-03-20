@@ -2,29 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
-import { Sidebar } from "semantic-ui-react";
-
-const TopBar = () => {
-  return (
-    <div className="flex justify-between items-center p-4 bg-white">
-      <img src="/mainlogo.png" alt="visionfactory" className="w-70 h-10" />
-
-      <div className="flex items-center space-x-4  mr-10">
-        <Link href="/user/login">
-          <div className="text-white rounded-md px-4 py-2 text-sm bg-blue-500 w-32 text-center drop-shadow-lg">
-            로그인
-          </div>
-        </Link>
-        <Link href="user/signup">
-          <div className="text-white rounded-md px-4 py-2 text-sm bg-blue-500 w-32 text-center drop-shadow-lg">
-            회원가입
-          </div>
-        </Link>
-      </div>
-    </div>
-  );
-};
+import Sidebar from "@/app/components/sidebar";
+import Header from "@/app/components/header";
+import { useRouter } from "next/navigation";
 
 interface Board {
   id: number;
@@ -36,24 +16,54 @@ interface Board {
 const boardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
 
-  useEffect(() => {
-    axios
-      .get<Board[]>("/api/factoryvision/board")
-      .then((res) => setBoardList(res.data))
-      .catch((error) => console.log(error));
-  }, []);
+  const [keyword, setKeyword] = useState<string>("");
 
   const currentPage = 2;
   const totalPages = 5;
 
+  const router = useRouter();
+
+  useEffect(() => {
+    // 게시글 데이터를 불러오는 함수
+    const fetchBoardList = async () => {
+      try {
+        // 게시글 데이터를 가져오는 API 호출 (예시)
+        const response = await fetch(
+          "http://localhost:8080/factoryvision/board",
+          {
+            headers: {
+              Authorization: `${localStorage.getItem("access-token")}`,
+            },
+          }
+        );
+        console.log("response", response);
+        console.log(
+          "localstrage 토큰 받아오기",
+          localStorage.getItem("access-token")
+        );
+
+        if (!response.ok) {
+          throw new Error("게시글 데이터를 불러오는데 실패했습니다.");
+        }
+        const data = await response.json();
+        setBoardList(data); // 가져온 데이터를 상태에 설정
+      } catch (error) {
+        console.error("게시글 데이터를 에러:", error);
+      }
+    };
+
+    fetchBoardList(); // 함수 호출하여 데이터 불러오기
+  }, []);
+
   return (
-    <div className="flex-center">
-      <TopBar />
-      <div className="flex flex-1 justify-center items-center ">
-        <div className="rounded-lg p-5 md:container md:mx-auto]">
+    <div className="flex flex-col">
+      <Header />
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-1 rounded-lg px-10 p-5 md:container md:mx-auto]">
           {/*  */}
-          <div className="rid gap-x-8 gap-y-4 flex place-content-between">
-            <div className="text-blue-700 border-b-4 text-sm px-4 py-2 w-30 border-blue-700 text-center">
+          <div className="rid gap-x-8 gap-y-4 flex py-20 place-content-between">
+            <div className="text-blue-700 border-b-4 text-sm px-4 pb-4 w-30 border-blue-700 text-center">
               게시글 목록
             </div>
             <Link href="/board/boardCreate">
@@ -63,9 +73,9 @@ const boardList: React.FC = () => {
             </Link>
           </div>
           {/*  */}
-          <div className="mt-10 boardList border-b border-blue-400 p-2 bg-white rounded-lg font-thin">
+          <div className="mt-10 boardList  p-2 bg-white rounded-lg font-thin">
             <table className="hover:table-auto w-full text-blue-400">
-              <thead>
+              <thead className="border-b border-blue-400 ">
                 <tr>
                   <th className="px-4 py-2">순서</th>
                   <th className="px-4 py-2">제목</th>
@@ -75,12 +85,19 @@ const boardList: React.FC = () => {
                 </tr>
                 <tr className="underline"></tr>
               </thead>
-              <tbody>
+              <tbody className="mt-7">
                 {boardList.map((board) => (
                   <tr key={board.id}>
-                    <td className="border px-4 py-2">{board.id}</td>
-                    <td className="border px-4 py-2">{board.title}</td>
-                    <td className="border px-4 py-2">{board.createdOn}</td>
+                    <td className=" px-4 py-2">{board.id}</td>
+                    <td
+                      className="px-4 py-2"
+                      onClick={() =>
+                        router.push(`/board/boardDetail/${board.id}`)
+                      }
+                    >
+                      {board.title}
+                    </td>
+                    <td className=" px-4 py-2">{board.createdOn}</td>
                   </tr>
                 ))}
               </tbody>
@@ -88,7 +105,7 @@ const boardList: React.FC = () => {
           </div>
         </div>
       </div>
-
+      {/* <div className="flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3"> */}
       <div className="flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
         {currentPage > 1 && <span> {"<"} Previous </span>}
 
