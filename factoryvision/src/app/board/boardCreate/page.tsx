@@ -1,15 +1,56 @@
 // 게시물수정
 "use client";
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
+import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const currentPage = 2;
 const totalPages = 5;
 export default function boardCreate() {
+
+  const [title, setTitle] = useState(""); // 제목 상태 추가
+  const [content, setContent] = useState(""); // 내용 상태 추가
+  const router = useRouter();
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value); // 제목 변경 핸들러
+  };
+
+  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value); // 내용 변경 핸들러
+  };
+
+  const handleSubmit = () => {
+    fetch("http://localhost:8080/factoryvision/board",{   
+      method: "post",
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": `${localStorage.getItem("access-token")}`        
+      },
+      body: JSON.stringify({
+        "userId": 1,
+        "title": title,
+        "content": content
+      }),
+    })
+    .then((response)=>{
+      if (response.ok) {
+        console.log("게시글 작성 성공");
+        router.push("/board/boardList")
+      } else {
+        console.log(response);
+        console.error("게시글 작성 실패");        
+      }
+    })
+    .catch((error)=>{
+      console.log("게시글 작성 오류",error);
+    });
+  };
+
   return (
     <div className="flex flex-col">
       <Header />
@@ -25,24 +66,35 @@ export default function boardCreate() {
           </div>
           <div className="bg-white rounded-lg border-gray-400  bg-white rounded-lg justify-center items-center p-4 space-y-4">
             <div>글제목</div>
+
             <input
               className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
               type="text"
               placeholder="제목을 입력해주세요."
+              value={title}
+              onChange={handleTitleChange}
             />
+
             <div>내용</div>
             <textarea
               className="w-full h-full bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
               placeholder="내용을 입력해주세요."
+              value={content}
+              onChange={handleContentChange}
             />
+
             <div className="pt-5">
-              <button className="bg-blue-700 rounded-md mr-5 px-4 py-2 text-sm text-white">
+              <button 
+                className="bg-blue-700 rounded-md mr-5 px-4 py-2 text-sm text-white" 
+                onClick={handleSubmit}>
                 작성
               </button>
+
               <button className="bg-blue-700 rounded-md p-4 px-4 py-2 text-sm text-white">
                 <Link href="./boardList">취소</Link>
               </button>
             </div>
+
           </div>
         </div>
       </div>

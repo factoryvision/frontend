@@ -2,9 +2,53 @@
 
 import Sidebar from "@/app/components/sidebar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [userId, setuserId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/factoryvision/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            password,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("토큰 data", data);
+        const accessToken = data.accessToken; // Assuming the token is returned as accessToken
+        localStorage.setItem("access-token", accessToken);
+        router.push("/");
+      } else {
+        console.error("Login failed 로그인 실패");
+        console.error(response);
+      }
+    } catch (error) {
+      console.error("Error during login 로그인 catch에러:", error);
+    }
+  };
+
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setuserId(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <div className="flex">
       <Sidebar />
@@ -35,6 +79,7 @@ export default function LoginPage() {
               className="w-[17.5rem] h-[2.3125rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
               type="text"
               placeholder="5자 이하로 입력해주세요"
+              onChange={handleUsernameChange}
             />
           </div>
 
@@ -44,11 +89,15 @@ export default function LoginPage() {
               className="w-[17.5rem] h-[2.3125rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
               type="text"
               placeholder="5자 이하로 입력해주세요"
+              onChange={handlePasswordChange}
             />
           </div>
 
           <div className="flex justify-center items-center mt-10">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5">
+            <button
+              onClick={handleLogin}
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5"
+            >
               로그인
             </button>
           </div>
