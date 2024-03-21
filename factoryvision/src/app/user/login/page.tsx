@@ -6,36 +6,37 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 export default function LoginPage() {
-
   const router = useRouter();
   const [userId, setuserId] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:8080/factoryvision/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          password,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/factoryvision/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+            password,
+          }),
+        }
+      );
 
-      if (response.ok){        
+      if (response.ok) {
         const data = await response.json();
-        console.log("토큰 data",data);
+        console.log("토큰 data", data);
         const accessToken = data.accessToken; // Assuming the token is returned as accessToken
         localStorage.setItem("access-token", accessToken);
         router.push("/");
-      } else{
+      } else {
         console.error("Login failed 로그인 실패");
         console.error(response);
       }
-    }catch (error){
+    } catch (error) {
       console.error("Error during login 로그인 catch에러:", error);
     }
   };
@@ -93,9 +94,10 @@ export default function LoginPage() {
           </div>
 
           <div className="flex justify-center items-center mt-10">
-            <button 
+            <button
               onClick={handleLogin}
-              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5">
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5"
+            >
               로그인
             </button>
           </div>
