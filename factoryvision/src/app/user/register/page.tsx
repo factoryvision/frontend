@@ -3,8 +3,60 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+
+
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
+  const [role, setRole] = useState("ADMIN");
+
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/factoryvision/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          password,
+          nickname,
+          phone,
+          email,
+          userId,
+          profilePhoto,
+          role
+        }),
+      });
+
+      if (response.ok) {
+        router.push("/"); // Redirect to login page after successful registration
+      } else {
+        // Handle error response
+        console.error("Registration failed");
+      }
+    }catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => setNickname(e.target.value);
+  const handleUserIdChange = (e: ChangeEvent<HTMLInputElement>) => setUserId(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => setPhone(e.target.value);
+  const handleProfilePhotoChange = (e: ChangeEvent<HTMLInputElement>) => setProfilePhoto(e.target.value);
+
   return (
     <div className="flex">
       <Sidebar />
@@ -26,6 +78,7 @@ export default function LoginPage() {
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
                 type="text"
                 placeholder="5자 이하로 입력해주세요"
+                onChange={handleNameChange}
               />
             </div>
 
@@ -35,6 +88,7 @@ export default function LoginPage() {
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
                 type="text"
                 placeholder="5자 이하로 입력해주세요"
+                onChange={handleNicknameChange}
               />
             </div>
 
@@ -44,6 +98,7 @@ export default function LoginPage() {
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
                 type="text"
                 placeholder="5자 이하로 입력해주세요"
+                onChange={handleUserIdChange}
               />
             </div>
 
@@ -53,6 +108,7 @@ export default function LoginPage() {
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
                 type="text"
                 placeholder="5자 이하로 입력해주세요"
+                onChange={handlePasswordChange}
               />
             </div>
 
@@ -62,12 +118,15 @@ export default function LoginPage() {
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
                 type="text"
                 placeholder="5자 이하로 입력해주세요"
+                onChange={handleEmailChange}
               />
             </div>
 
             <div className="flex justify-center items-center mt-4">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5">
-                회원가입
+              <button 
+                className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5"
+                onClick={handleRegister}>
+                  회원가입
               </button>
             </div>
           </div>
