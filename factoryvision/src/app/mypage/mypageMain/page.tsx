@@ -2,12 +2,83 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import axios from "axios";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 
-const myPageMain = () => {
+const MyPageMain = () => {
+
+  interface UserInfo {
+    name: string;
+    email: string;
+    nickname: string;
+    phone: string;    
+    userId: string;
+  }
+
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    name: "",
+    email: "",
+    nickname: "",
+    phone: "",
+    userId: "",
+  });
+  const router = useRouter();
+
+  
+
+  // 토큰을 이용하여 사용자의 아이디를 얻는 API 호출
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/factoryvision/tokenInfo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${localStorage.getItem("access-token")}`        
+          },
+        });
+        if (response.ok) {
+          const userId = await response.text(); // 사용자 아이디만 받아옴
+          fetchUserInfo(userId); // 사용자 아이디를 이용하여 사용자 정보를 가져오는 함수 호출
+        } else {
+          console.error("사용자 아이디를 가져오는데 실패했습니다.",response);          
+                    
+        }
+      } catch (error) {
+        console.error("사용자 아이디를 가져오는데 에러가 발생했습니다:", error);
+      }
+    };
+
+    fetchUserId(); // useEffect가 호출되면 사용자 아이디를 가져오는 함수 호출
+  }, []);
+
+  // 사용자 아이디를 이용하여 사용자 정보를 가져오는 API 호출
+  const fetchUserInfo = async (user_Id: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/factoryvision/userInfo/${user_Id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `${localStorage.getItem("access-token")}`        
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("사용자 정보",data)
+        setUserInfo(data); // 받아온 사용자 정보를 상태에 저장
+      } else {
+        console.error("사용자 정보를 가져오는데 실패했습니다.");
+        // 사용자 정보를 가져오지 못한 경우 로그인 페이지로 이동 또는 오류 처리
+        // router.push("/login");
+      }
+    } catch (error) {
+      console.error("사용자 정보를 가져오는데 에러가 발생했습니다:", error);
+    }
+  };
+
+
   return (
     <div className="flex flex-col">
       <Header />
@@ -29,24 +100,24 @@ const myPageMain = () => {
               {/*  */}
               <div>
                 <div className="flex flex-col">
-                  <div className="py-4">이름</div>
-                  <div className="py-4">니콜라</div>
-                  <div className="py-4">닉네임</div>
-                  <div className="py-4">nicola</div>
+                  <div className="py-4 font-bold">이름</div>
+                  <div className="py-4">{userInfo.name}</div>
+                  <div className="py-4 font-bold">닉네임</div>
+                  <div className="py-4">{userInfo.nickname}</div>
 
-                  <div className="py-4">아이디</div>
-                  <div className="py-4">mynameis?</div>
+                  <div className="py-4 font-bold">아이디</div>
+                  <div className="py-4">{userInfo.userId}</div>
                 </div>
               </div>
 
               <div>
                 <div className="flex flex-col">
-                  <div className="py-4">이메일</div>
-                  <div className="py-4">you@example.com</div>
-                  <div className="py-4">비밀번호</div>
+                  <div className="py-4 font-bold">이메일</div>
+                  <div className="py-4">{userInfo.email}</div>
+                  <div className="py-4 font-bold">비밀번호</div>
                   <div className="py-4">**************</div>
-                  <div className="py-4">전화번호</div>
-                  <div className="py-4">010-0000-0000</div>
+                  <div className="py-4 font-bold">전화번호</div>
+                  <div className="py-4">{userInfo.phone}</div>
                 </div>
               </div>
             </div>
@@ -63,4 +134,4 @@ const myPageMain = () => {
   );
 };
 
-export default myPageMain;
+export default MyPageMain;
