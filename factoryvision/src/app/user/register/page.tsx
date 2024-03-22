@@ -3,8 +3,60 @@ import Link from "next/link";
 import { ChangeEvent, useState } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [userId, setUserId] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
+  const [role, setRole] = useState("ADMIN");
+  const [email, setEmail] = useState("");
+
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          password,
+          nickname,
+          phone,
+          email,
+          userId,
+          profilePhoto,
+          role
+        }),
+      });
+
+      if (response.ok) {
+        router.push("/login"); // Redirect to login page after successful registration
+      } else {
+        // Handle error response
+        console.error("Registration failed 회원가입 실패");
+      }
+    } catch (error) {
+      console.error("Error during registration catch:", error);
+    }
+  };  
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
+  const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => setNickname(e.target.value);
+  const handleUserIdChange = (e: ChangeEvent<HTMLInputElement>) => setUserId(e.target.value);
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => setPhone(e.target.value);
+  const handleProfilePhotoChange = (e: ChangeEvent<HTMLInputElement>) => setProfilePhoto(e.target.value);
+
   return (
     <div className="flex">
       <Sidebar />

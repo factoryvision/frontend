@@ -12,21 +12,7 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8080/factoryvision/login",
-        {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId,
-            password,
-          }),
-        }
-      );
-
-      if (response.ok) {
         const data = await response.json();
         console.log("토큰 data", data);
         const accessToken = data.accessToken; // Assuming the token is returned as accessToken
