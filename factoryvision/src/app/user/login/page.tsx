@@ -31,7 +31,7 @@ export default function LoginPage() {
         console.log("토큰 data", data);
         const accessToken = data.accessToken; // Assuming the token is returned as accessToken
         localStorage.setItem("access-token", accessToken);
-        router.push("/main/homeLogin");
+        router.push("/");
       } else {
         console.error("Login failed 로그인 실패");
         console.error(response);
