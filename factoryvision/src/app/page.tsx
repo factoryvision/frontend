@@ -6,20 +6,57 @@ import Header from "@/app/components/header";
 import Link from "next/link";
 
 const Home = () => {
-  const [video, setVideo] = useState<File | null>(null);
+  const [video, setVideo] = useState<File | null>(null); 
+  
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  // input click method
+  const handleClick = () => {
+    fileRef?.current?.click();    
+    console.log("파일 업로드 클릭",fileRef);
+  };
+
+  const uploadFile = async (fileName: string, file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('fileName', fileName);
+      formData.append('file', file);
+
+      console.log("파일테스트",file, fileName);
+      console.log("formdata", formData.get('file'));
+      console.log("formdata", formData.get('fileName'));
+
+      const response = await fetch('http://localhost:8080/factoryvision/upload', {    
+        headers: {          
+          "Authorization": `${localStorage.getItem("access-token")}`        
+        },
+        method: 'POST',
+        body: formData,
+      });
+      console.log("response",response);
+
+      if (response.ok) {
+        console.log('파일이 성공적으로 업로드되었습니다.', response);
+      } else {
+        console.error('파일 업로드에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('파일 업로드 중 오류가 발생했습니다:', error);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      console.log("핸들체인지",file);
       setVideo(file);
+      uploadFile('test.mp4', file); // 파일이 선택되면 업로드 함수 호출
     }
   };
+ 
+  // uploadFile('영상파일.mp4', video);
+  
 
-  const fileRef = useRef<HTMLInputElement>(null);
-  // input click method
-  const handleClick = () => {
-    fileRef?.current?.click();
-  };
   return (
     <div className="flex flex-col">
       <Header />
@@ -40,21 +77,23 @@ const Home = () => {
             {/* 영상업로드 버튼 */}
             <div className="flex flex-col justify-center items-center px-10 ">
               <div className="rid w-[500px] h-[200px] text-center bg-white flex flex-nowrap place-content-center rounded-lg items-center ">
+              
                 <form>
                   <div className="flex flex-col px-10 " onClick={handleClick}>
                     <img
                       src="../imageupload.png"
                       alt="logo"
                       className="w-25 h-25 cursor-pointer"
+                    />                  
+                    <input
+                      className="hidden"
+                      ref={fileRef}
+                      type="file"
+                      accept="video/*"
+                      onChange={handleFileChange}
                     />
-                  </div>
-                  <input
-                    className="hidden"
-                    ref={fileRef}
-                    type="file"
-                    accept="video/*"
-                    onChange={handleFileChange}
-                  />
+                  </div>                
+
                 </form>
                 <div className="p-5">
                   <p className="text-center text-lg pb-4 font-bold">

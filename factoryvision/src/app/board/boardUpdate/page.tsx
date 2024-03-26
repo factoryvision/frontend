@@ -47,7 +47,7 @@ export default function boardCreate() {
       </div>
 
       {/* 페이지네이션 */}
-      <div className="flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
+      {/* <div className="flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
         {currentPage > 1 && <span> {"<"} Previous </span>}
 
         {Array.from({ length: totalPages }, (_, index) => index + 1).map(
@@ -67,7 +67,7 @@ export default function boardCreate() {
         )}
 
         {currentPage < totalPages && <span> Next {">"} </span>}
-      </div>
+      </div> */}
     </div>
   );
 }

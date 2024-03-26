@@ -13,6 +13,8 @@ const Header = () => {
     phone: string;    
     userId: string;
     }
+  
+  const [userId, setUserId] = useState<string | null>(null);
 
   const [userInfo, setUserInfo] = useState<UserInfo>({
     name: "",
@@ -38,6 +40,8 @@ const Header = () => {
         if (response.ok) {
           const userId = await response.text(); // 사용자 아이디만 받아옴
           fetchUserInfo(userId); // 사용자 아이디를 이용하여 사용자 정보를 가져오는 함수 호출
+          setUserId(userId);
+
         } else {
           console.log("사용자 아이디를 가져오는데 실패했습니다.(header)",response);          
           //router.push("/");
@@ -75,6 +79,7 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
+    // localStorage.removeItem("access-token");
     
     try {
       const response = await fetch("http://localhost:8080/factoryvision/logout", {
@@ -106,7 +111,7 @@ const Header = () => {
 
 
   const isLoggedIn = typeof window !== 'undefined' && !!localStorage.getItem("access-token");
-  console.log("토큰유무 (header)", localStorage.getItem("access-token"));
+  //console.log("토큰유무 (header)", localStorage.getItem("access-token"));
   
   
   
@@ -117,7 +122,7 @@ const Header = () => {
       <img src="/mainlogo.png" alt="logo" className="w-50 h-10" />
       <div className="flex items-center space-x-4">
        
-        {isLoggedIn ? (
+        {userId ? (
                     <>
                         <span>환영합니다. {userInfo.nickname} 님</span>
                         {/* 로그아웃 버튼 */}
