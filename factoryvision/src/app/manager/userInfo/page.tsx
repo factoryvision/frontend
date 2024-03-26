@@ -58,7 +58,7 @@ export default function LoginPage() {
                     </div>
 
                     
-                    <div className = "flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
+                    {/* <div className = "flex flex-row gap-2 text-blue-500 justify-end mt-3 mr-3">
                         {currentPage > 1 && (
                             <span> {'<'} Previous </span>
                         )}
@@ -81,7 +81,7 @@ export default function LoginPage() {
                             <span> Next {'>'} </span>
                         )}
 
-                    </div>
+                    </div> */}
                     
                     
 

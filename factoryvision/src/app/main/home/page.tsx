@@ -19,6 +19,7 @@ const Home = () => {
   // input click method
   const handleClick = () => {
     fileRef?.current?.click();
+    console.log("파일업로드 버튼 클릭");
   };
   return (
     <div className="flex flex-col">
