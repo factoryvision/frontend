@@ -16,7 +16,7 @@ export default function boardUpdate() {
   const router = useRouter();
   const params = useParams();
   const id = params.boardId;
-  const userId = params.userId;
+  const [userId, setuserId] = useState("");
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value); // 제목 변경 핸들러
@@ -25,6 +25,25 @@ export default function boardUpdate() {
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value); // 내용 변경 핸들러
   };
+
+  useEffect(() => {
+    // board 아이디를 가져오는 API 호출
+    const fetchBoardId = async () => {
+      fetch(`http://localhost:8080/factoryvision/board/${id}`, {
+        headers: {
+          Authorization: `${localStorage.getItem("access-token")}`,
+        },
+        method: "GET",
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          console.log("가져온 board 아이디 확인", id);
+          // setuserId(id);
+        });
+    };
+    fetchBoardId();
+  }, []);
+  // console.log("boardupdate아이디 확인", id);
 
   const handleSubmit = async () => {
     try {
@@ -46,7 +65,7 @@ export default function boardUpdate() {
       console.log(response);
       if (response.ok) {
         alert("수정이 완료되었습니다.");
-        router.push("/board/boardList");
+        // router.push("/board/boardList");
         router.refresh();
       } else {
         throw new Error("서버에서 올바른 응답을 받지 못했습니다.");
@@ -55,6 +74,7 @@ export default function boardUpdate() {
       console.error("게시물 수정 중 오류 발생:", error);
     }
   };
+  console.log("boardUpdate된 내용", content);
   useEffect(() => {
     // 게시물 데이터 가져오기
     fetch(`http://localhost:8080/factoryvision/board/${id}`, {
@@ -110,6 +130,7 @@ export default function boardUpdate() {
               <button
                 className="bg-blue-700 rounded-md mr-5 px-4 py-2 text-sm text-white"
                 onClick={handleSubmit}
+                type="submit"
               >
                 수정
               </button>

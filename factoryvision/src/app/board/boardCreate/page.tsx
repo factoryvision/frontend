@@ -11,15 +11,13 @@ import { useRouter } from "next/navigation";
 const currentPage = 2;
 const totalPages = 5;
 
-export default function boardCreate() {
+// export default function boardCreate() {
+const boardCreate = () => {
   const [title, setTitle] = useState(""); // 제목 상태 추가
   const [content, setContent] = useState(""); // 내용 상태 추가
   const router = useRouter();
-  // const params = useParams(); //2024-03-25 추가
-  // const boardId = params.boardId;
   const [userId, setuserId] = useState("");
   const [boardId, setboardId] = useState("");
-  // const userId = params.userId;
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value); // 제목 변경 핸들러
@@ -29,24 +27,35 @@ export default function boardCreate() {
     setContent(e.target.value); // 내용 변경 핸들러
   };
 
+  // 토큰을 이용하여 사용자의 아이디를 얻는 API 호출
   useEffect(() => {
-    // 사용자 정보 가져오는 API 호출   여기를 현재 사용자로
     const fetchUserId = async () => {
-      console.log("userid", userId);
-      fetch(`http://localhost:8080/factoryvision/tokenInfo`, {
-        headers: {
-          Authorization: `${localStorage.getItem("access-token")}`,
-        },
-        method: "GET",
-      })
-        .then((response) => response.text())
-        .then((data) => {
-          userId;
-          console.log("아이디 확인", userId);
-        });
+      try {
+        const response = await fetch(
+          "http://localhost:8080/factoryvision/tokenInfo",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${localStorage.getItem("access-token")}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const userId = await response.text(); // 사용자 아이디만 받아옴
+          setuserId(userId); // 사용자 아이디를 이용하여 사용자 정보를 가져오는 함수 호출
+        } else {
+          console.error("사용자 아이디를 가져오는데 실패했습니다.", response);
+        }
+      } catch (error) {
+        console.error("사용자 아이디를 가져오는데 에러가 발생했습니다:", error);
+      }
     };
-    fetchUserId();
+
+    fetchUserId(); // useEffect가 호출되면 사용자 아이디를 가져오는 함수 호출
   }, []);
+
+  console.log("아이디", userId);
 
   const handleSubmit = () => {
     fetch("http://localhost:8080/factoryvision/board", {
@@ -56,7 +65,7 @@ export default function boardCreate() {
         Authorization: `${localStorage.getItem("access-token")}`,
       },
       body: JSON.stringify({
-        userId: 1,
+        userId: userId,
         title: title, //수정
         content: content, //수정
       }),
@@ -148,4 +157,5 @@ export default function boardCreate() {
       </div>
     </div>
   );
-}
+};
+export default boardCreate;
