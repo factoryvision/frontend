@@ -38,7 +38,9 @@ const ManagerHome = () => {
                         </div>
 
                         <div className="flex flex-row w-[13rem] h-20 bg-white rounded-lg">
-                            <img src="/mngimg2.png" className="h-full ml-3" />
+                            <Link href="/manager/alram">
+                                <img src="/mngimg2.png" className="h-full ml-3" />
+                            </Link>
                             <div className="flex items-center justify-center">호출 알람 현황</div>
                         </div>
 
