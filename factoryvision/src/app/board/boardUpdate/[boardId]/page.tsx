@@ -6,6 +6,7 @@ import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 import { ChangeEvent, useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { createSearchParamsBailoutProxy } from "next/dist/client/components/searchparams-bailout-proxy";
 
 const currentPage = 2;
 const totalPages = 5;
@@ -26,6 +27,34 @@ export default function boardUpdate() {
     setContent(e.target.value); // 내용 변경 핸들러
   };
 
+  // 토큰을 이용하여 사용자의 아이디를 얻는 API 호출
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/factoryvision/tokenInfo",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${localStorage.getItem("access-token")}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const userId = await response.text(); // 사용자 아이디만 받아옴
+          setuserId(userId); // 사용자 아이디를 이용하여 사용자 정보를 가져오는 함수 호출
+        } else {
+          console.error("사용자 아이디를 가져오는데 실패했습니다.", response);
+        }
+      } catch (error) {
+        console.error("사용자 아이디를 가져오는데 에러가 발생했습니다:", error);
+      }
+    };
+
+    fetchUserId(); // useEffect가 호출되면 사용자 아이디를 가져오는 함수 호출
+  }, []);
+
   useEffect(() => {
     // board 아이디를 가져오는 API 호출
     const fetchBoardId = async () => {
@@ -38,7 +67,6 @@ export default function boardUpdate() {
         .then((response) => response.text())
         .then((data) => {
           console.log("가져온 board 아이디 확인", id);
-          // setuserId(id);
         });
     };
     fetchBoardId();
@@ -56,24 +84,26 @@ export default function boardUpdate() {
             Authorization: `${localStorage.getItem("access-token")}`,
           },
           body: JSON.stringify({
-            userId: userId,
-            title: title,
-            content: content,
+            //
+            userId,
+            title,
+            content,
           }),
         }
       );
       console.log(response);
       if (response.ok) {
         alert("수정이 완료되었습니다.");
-        // router.push("/board/boardList");
-        router.refresh();
+        console.log("수정된 게시글 id ", id);
+        router.push(`/board/boardList`);
       } else {
-        throw new Error("서버에서 올바른 응답을 받지 못했습니다.");
+        console.error("글을 수정하는데 실패했습니다.");
       }
     } catch (error) {
       console.error("게시물 수정 중 오류 발생:", error);
     }
   };
+
   console.log("boardUpdate된 내용", content);
   useEffect(() => {
     // 게시물 데이터 가져오기
@@ -130,7 +160,6 @@ export default function boardUpdate() {
               <button
                 className="bg-blue-700 rounded-md mr-5 px-4 py-2 text-sm text-white"
                 onClick={handleSubmit}
-                type="submit"
               >
                 수정
               </button>
