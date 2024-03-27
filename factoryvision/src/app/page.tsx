@@ -4,11 +4,14 @@ import { useRef } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
-  const [video, setVideo] = useState<File | null>(null); 
-  
+
+  const router = useRouter();
+  const [video, setVideo] = useState<File | null>(null);   
   const fileRef = useRef<HTMLInputElement>(null);
+  
 
   // input click method
   const handleClick = () => {
@@ -37,6 +40,7 @@ const Home = () => {
 
       if (response.ok) {
         console.log('파일이 성공적으로 업로드되었습니다.', response);
+        router.push("/video");
       } else {
         console.error('파일 업로드에 실패했습니다.');
       }
