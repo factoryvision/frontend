@@ -87,7 +87,7 @@ export default function LoginPage() {
             <div className="text-[0.875rem]">비밀번호</div>
             <input
               className="w-[17.5rem] h-[2.3125rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-4 border border-blue-500"
-              type="text"
+              type="password"
               placeholder="5자 이하로 입력해주세요"
               onChange={handlePasswordChange}
             />
