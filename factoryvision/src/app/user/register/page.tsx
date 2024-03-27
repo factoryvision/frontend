@@ -62,7 +62,7 @@ export default function RegisterPage() {
       <Sidebar />
       <div className="flex flex-1 justify-center items-center h-screen">
         <div
-          className="bg-gray-200 rounded-lg w-[300px] h-[450px] p-5"
+          className="bg-gray-200 rounded-lg w-[300px] h-[600px] p-5"
           style={{
             backgroundImage: "url(/login_img.png)",
             backgroundSize: "cover",
@@ -70,7 +70,7 @@ export default function RegisterPage() {
           }}
         ></div>
 
-        <div className="bg-white rounded-lg w-[370px] h-[450px] p-5">
+        <div className="bg-white rounded-lg w-[370px] h-[600px] p-5">
           <div className="flex flex-col p-1 gap-[0.75rem] mt-1">
             <div className="flex flex-col gap-[0.25rem] mt-0">
               <div className="text-[0.875rem]">이름</div>
@@ -82,7 +82,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-[0.2rem] mt-1">
+            <div className="flex flex-col gap-[0.2rem] mt-0.7">
               <div className="text-[0.875rem]">닉네임</div>
               <input
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
@@ -92,7 +92,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-[0.2rem] mt-1">
+            <div className="flex flex-col gap-[0.2rem] mt-0.7">
               <div className="text-[0.875rem]">아이디</div>
               <input
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
@@ -102,23 +102,43 @@ export default function RegisterPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-[0.2rem] mt-1">
+            <div className="flex flex-col gap-[0.2rem] mt-0.7">
               <div className="text-[0.875rem]">비밀번호</div>
               <input
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
-                type="text"
+                type="password"
                 placeholder="5자 이하로 입력해주세요"
                 onChange={handlePasswordChange}
               />
             </div>
 
-            <div className="flex flex-col gap-[0.2rem] mt-1">
+            <div className="flex flex-col gap-[0.1rem] mt-0.5">
+              <div className="text-[0.875rem]">비밀번호 확인</div>
+              <input
+                className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
+                type="password"
+                placeholder="5자 이하로 입력해주세요"
+                onChange={handlePasswordChange}
+              />
+            </div>
+
+            <div className="flex flex-col gap-[0.2rem] mt-0.7">
               <div className="text-[0.875rem]">이메일</div>
               <input
                 className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
                 type="text"
                 placeholder="5자 이하로 입력해주세요"
                 onChange={handleEmailChange}
+              />
+            </div>
+
+            <div className="flex flex-col gap-[0.2rem] mt-0.7">
+              <div className="text-[0.875rem]">전화번호</div>
+              <input
+                className="w-[17.5rem] h-[2rem] bg-[#fff] text-[0.8125rem] rounded-[0.5rem] p-2 border border-blue-500"
+                type="text"
+                placeholder="5자 이하로 입력해주세요"
+                onChange={handlePhoneChange}
               />
             </div>
 

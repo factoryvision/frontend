@@ -1,9 +1,12 @@
+"use client";
 import Link from 'next/link';
 import { ChangeEvent, useState } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 
 const MenuBar = () => {
+
+
     return (         
     <div className="bg-white h-screen lg:w-60 flex flex-col justify-start">
         <img src="/logo.png" className="w-full" />
@@ -13,13 +16,7 @@ const MenuBar = () => {
     );
 };
 
-const TopBar = () => {
-    return (         
-      <div className="bg-white w-screen lg:w-300 lg:h-16 flex flex-col items-center justify-center">
-        상단 바
-      </div>
-    );
-};
+
 
 
 export default function LoginPage() {
@@ -31,13 +28,13 @@ export default function LoginPage() {
         <div className="flex flex-col">
 
             <div className="flex flex-col">                
-                <TopBar/>
+                <Header/>
             </div>
 
             <div className="flex flex-row">
                 
                 <div className="flex flex-col">
-                    <MenuBar/>
+                    <Sidebar/>
                 </div>
 
 
