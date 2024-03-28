@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { ChangeEvent, useState, useEffect } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
+import { useRouter } from "next/navigation";
 
 
 const UserInfo = () => {
 
     const [users, setUsers] = useState([]);
+    const router = useRouter();
 
     const currentPage = 2;
     const totalPages = 5
@@ -24,7 +26,7 @@ const UserInfo = () => {
         // 사용자 데이터를 가져오는 비동기 함수
         const fetchUserData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/factoryvision/userInfo", {
+                const response = await fetch("http://localhost:8080/factoryvision/admin/userInfo", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -35,7 +37,10 @@ const UserInfo = () => {
                 console.log("전체 사용자 정보",response);
                 setUsers(data); // 사용자 데이터를 상태에 설정
             } catch (error) {
-                console.error('Error fetching user data:', error);
+
+                console.error('전체 사용자 정보 가져오기 실패:', error);
+                alert('권한이 없습니다. 사용자 정보를 가져올 수 없습니다.');
+                router.push("/manager/home");
             }
         };
 

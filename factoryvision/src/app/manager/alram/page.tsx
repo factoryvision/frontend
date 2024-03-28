@@ -12,8 +12,8 @@ const Alram = () => {
     const currentPage = 2;
     const totalPages = 5
 
-    interface AlramInfo {
-        userInfo: string;
+    interface AlramInfo {        
+        userId: string;
         name: string;
         phone: string;        
       }
@@ -22,7 +22,7 @@ const Alram = () => {
         // 사용자 데이터를 가져오는 비동기 함수
         const fetchAlramData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/factoryvision/emergency", {
+                const response = await fetch("http://localhost:8080/factoryvision/admin/emergency", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -62,23 +62,19 @@ const Alram = () => {
                     <div>
                         <img src="/realtime.png" className="w-[8rem] mt-3 ml-3" />
                     </div>
+                    
 
-                    <div className='bg-white w-[45rem] h-[20rem] mt-3 ml-10'>
-                        영상
-                    </div>
-
-                    <div className="text-blue-500 mt-5 ml-10 bold">출력결과</div>
+                    <div className="text-blue-500 mt-5 ml-10 bold">호출 알람 조회</div>
 
                     <div className='flex flex-col bg-white w-[60rem] h-[20rem] mt-2 ml-10'>
                         <div className='text-gray-500 flex flex-row gap-20  ml-7 mt-5'> 
-                            <span>순서</span> <span>이름</span> <span>전화번호</span>  <span>아이디</span> 
+                            <span>순서</span> <span>이름</span> <span>전화번호</span>  
                         </div>
                         <hr className="border-gray-300 mt-3" />
                         {alrams.map((user: AlramInfo, index) => (
                             <div key={index} className="flex flex-row ml-5 mt-3 gap-20">
-                                <span>{index + 1}</span> {/* 순서 */}
-                                <span>{user.userInfo}</span> {/* 아이디 */}     
-                                <span>{user.name}</span> {/* 이름 */}                                
+                                <span>{index + 1}</span> {/* 순서 */}                                  
+                                <span>{user.name}</span> {/* 이름 */}                                                         
                                 <span>{user.phone}</span> {/* 전화번호 */}
                                 
                                 

@@ -1,16 +1,44 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRef } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+
 const Home = () => {
 
   const router = useRouter();
   const [video, setVideo] = useState<File | null>(null);   
   const fileRef = useRef<HTMLInputElement>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/factoryvision/tokenInfo", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${localStorage.getItem("access-token")}`        
+          },
+        });
+        if (response.ok) {
+          const userId = await response.text(); // 사용자 아이디만 받아옴
+          console.log("현재 사용자1",userId);
+          setUserId(userId);
+        } else {
+          console.error("사용자 아이디를 가져오는데 실패했습니다.",response);          
+                    
+        }
+      } catch (error) {
+        console.error("사용자 아이디를 가져오는데 에러가 발생했습니다:", error);
+      }
+    };
+
+    fetchUserId(); // useEffect가 호출되면 사용자 아이디를 가져오는 함수 호출
+  }, []);
   
 
   // input click method
@@ -57,8 +85,36 @@ const Home = () => {
       uploadFile('test.mp4', file); // 파일이 선택되면 업로드 함수 호출
     }
   };
+
+
+  const handleEmergencyCall = async () => {
+    console.log("현재 사용자",userId);
+    try {
+      const response = await fetch('http://localhost:8080/factoryvision/emergency', {    
+        headers: {          
+          "Content-Type": "application/json",
+          "Authorization": `${localStorage.getItem("access-token")}`        
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          userId,
+        }),
+      });
+      console.log("비상알람 res",response);
+      if (response.ok) {
+        console.log('비상 호출이 성공적으로 전송되었습니다.');
+        // 추가적인 작업이 필요한 경우 여기에 작성
+      } else {
+        console.error('비상 호출 전송에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('비상 호출 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  
  
-  // uploadFile('영상파일.mp4', video);
+  
   
 
   return (
@@ -107,7 +163,18 @@ const Home = () => {
                     쓰러짐 감지를 위해 영상을 업로드해주세요.
                   </p>
                 </div>
+
               </div>
+
+              <div className="flex justify-center items-center mt-20">
+                <button 
+                  className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded p-5"
+                  onClick={handleEmergencyCall}>
+                  비상호출
+                </button>
+              </div>
+              
+
             </div>
           </div>
         </div>
