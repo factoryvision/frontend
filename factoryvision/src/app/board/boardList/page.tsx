@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 interface Board {
   id: number;
+  nickname: string;
   title: string;
   content: string;
   createdOn: string;
@@ -15,13 +16,28 @@ interface Board {
 
 const boardList: React.FC = () => {
   const [boardList, setBoardList] = useState<Board[]>([]);
-
   const [keyword, setKeyword] = useState<string>("");
-
   const currentPage = 2;
   const totalPages = 5;
-
   const router = useRouter();
+  const params = useParams();
+  const userId = params.userId;
+
+  useEffect(() => {
+    // 사용자 정보 가져오는 API 호출   여기를 현재 사용자로
+    console.log("userid", userId);
+    fetch(`http://localhost:8080/factoryvision/tokenInfo`, {
+      headers: {
+        Authorization: `${localStorage.getItem("access-token")}`,
+      },
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // API 응답에서 닉네임 추출
+        console.log("아이디 추출", data.userId);
+      });
+  }, []);
 
   useEffect(() => {
     // 게시글 데이터를 불러오는 함수
@@ -32,6 +48,7 @@ const boardList: React.FC = () => {
           "http://localhost:8080/factoryvision/board",
           {
             headers: {
+              "Content-Type": "application/json",
               Authorization: `${localStorage.getItem("access-token")}`,
             },
           }
@@ -73,8 +90,8 @@ const boardList: React.FC = () => {
             </Link>
           </div>
           {/*  */}
-          <div className="mt-10 boardList  p-2 bg-white rounded-lg font-thin">
-            <table className="hover:table-auto w-full text-blue-400">
+          <div className="mt-10 boardList p-2 bg-white rounded-lg ">
+            <table className="hover:table-auto w-full ">
               <thead className="border-b border-blue-400 ">
                 <tr>
                   <th className="px-4 py-2">순서</th>
@@ -85,9 +102,9 @@ const boardList: React.FC = () => {
                 </tr>
                 <tr className="underline"></tr>
               </thead>
-              <tbody className="mt-7">
+              <tbody className="mt-7 border-collapse	">
                 {boardList.map((board) => (
-                  <tr key={board.id}>
+                  <tr className="hover:bg-slate-100" key={board.id}>
                     <td className=" px-4 py-2">{board.id}</td>
                     <td
                       className="px-4 py-2"
@@ -97,6 +114,7 @@ const boardList: React.FC = () => {
                     >
                       {board.title}
                     </td>
+                    <td className=" px-4 py-2">{board.nickname}</td>
                     <td className=" px-4 py-2">{board.createdOn}</td>
                   </tr>
                 ))}

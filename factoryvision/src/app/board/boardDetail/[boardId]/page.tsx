@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
@@ -13,38 +13,42 @@ interface Comment {
   nickname: string;
 }
 
-export default function BoardDetail({
-  params,
-}: {
-  params: { boardId: string; userId: string };
-}) {
-  const id = params.boardId;
-  const userId = params.userId;
+export default function BoardDetail() {
+  //   params,
+  // }: {
+  //   params: { boardId: string; userId: string };
+  // }) {
+  const router = useRouter();
   const [boardTitle, setBoardTitle] = useState("");
   const [boardContent, setboardContent] = useState("");
+  const params = useParams();
+  const id = params.boardId;
+  const [userId, setuserId] = useState("");
   console.log("param", params);
   console.log("boardId param", id);
   console.log("userId param", userId);
   const [comment, setComment] = useState("");
   const [nickname, setNickname] = useState("");
-
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     // 사용자 정보 가져오는 API 호출   여기를 현재 사용자로
-    console.log("userid", userId);
-    fetch(`http://localhost:8080/factoryvision/tokenInfo`, {
-      headers: {
-        Authorization: `${localStorage.getItem("access-token")}`,
-      },
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // API 응답에서 닉네임 추출
-        console.log("닉네임 추출", data.nickname);
-        setNickname(data.nickname);
-      });
+    const fetchUserId = async () => {
+      console.log("userid", userId);
+      fetch(`http://localhost:8080/factoryvision/tokenInfo`, {
+        headers: {
+          Authorization: `${localStorage.getItem("access-token")}`,
+        },
+        method: "GET",
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          userId;
+          console.log("아이디 확인", userId);
+          setuserId(data);
+        });
+    };
+    fetchUserId();
   }, []);
 
   useEffect(() => {
@@ -94,6 +98,7 @@ export default function BoardDetail({
         Authorization: `${localStorage.getItem("access-token")}`,
       },
       body: JSON.stringify({
+        id: id,
         content: comment,
         nickname: nickname,
       }),
@@ -108,6 +113,39 @@ export default function BoardDetail({
       .catch((error) => {
         console.error("Error posting comment catch 에러:", error);
       });
+  };
+
+  //수정 페이지로 넘어가게끔
+  const handleUpdate = () => {
+    router.push(`/board/boardUpdate/${id}`);
+  };
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/factoryvision/board/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("access-token")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.ok) {
+        alert("게시글이 성공적으로 삭제되었습니다.");
+        router.push("/board/boardList"); // 삭제 후 목록 페이지로 이동
+      } else {
+        throw new Error("게시글 삭제 실패");
+      }
+    } catch (error) {
+      console.error("게시글 삭제 중 오류 발생:", error);
+      alert("게시글 삭제에 실패했습니다.");
+    }
   };
 
   return (
@@ -132,14 +170,14 @@ export default function BoardDetail({
             </div>
             <div className="flex justify-end space-x-4">
               <button
-                // onClick={moveToUpdate}
+                onClick={handleUpdate}
                 className="bg-blue-700 rounded-md  px-4 py-2 text-sm text-white"
               >
                 수정
               </button>
               <button
-                // onClick={handleDeleteBoard}
                 className="bg-blue-700 rounded-md  px-4 py-2 text-sm text-white"
+                onClick={handleDelete}
               >
                 삭제
               </button>
