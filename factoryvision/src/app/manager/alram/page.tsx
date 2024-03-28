@@ -16,6 +16,7 @@ const Alram = () => {
         userId: string;
         name: string;
         phone: string;        
+        createdAt: string;
       }
 
       useEffect(() => {
@@ -68,16 +69,15 @@ const Alram = () => {
 
                     <div className='flex flex-col bg-white w-[60rem] h-[20rem] mt-2 ml-10'>
                         <div className='text-gray-500 flex flex-row gap-20  ml-7 mt-5'> 
-                            <span>순서</span> <span>이름</span> <span>전화번호</span>  
+                            <span>순서</span> <span>이름</span> <span>전화번호</span> <span>요청 시간</span>  
                         </div>
                         <hr className="border-gray-300 mt-3" />
                         {alrams.map((user: AlramInfo, index) => (
                             <div key={index} className="flex flex-row ml-5 mt-3 gap-20">
                                 <span>{index + 1}</span> {/* 순서 */}                                  
-                                <span>{user.name}</span> {/* 이름 */}                                                         
-                                <span>{user.phone}</span> {/* 전화번호 */}
-                                
-                                
+                                <span>{user.name || '-'}</span> {/* 이름 */}                                                         
+                                <span>{user.phone || ' 000-0000   '}</span> {/* 전화번호 */}
+                                <span>{user.createdAt || '-'}</span> {/* 요청 시간 */}                                     
                             </div>
                         ))}
 
