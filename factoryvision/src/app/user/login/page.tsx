@@ -1,3 +1,4 @@
+
 "use client";
 
 import Sidebar from "@/app/components/sidebar";
@@ -106,3 +107,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
