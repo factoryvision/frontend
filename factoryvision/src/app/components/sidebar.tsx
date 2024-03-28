@@ -31,6 +31,15 @@ const Sidebar = () => {
           </span>
         </button>
       </Link>
+      <Link href="/manager/home">
+        <button className="flex items-center p-5 my-8 w-full h-10 rounded-lg hover:bg-[#2D60FF] focus:outline-none focus:bg-gray-600">
+          <img src="/board.png" alt="logo" className="w-7 h-7" />
+
+          <span className="text-lg w-full text-center text-gray-400	">
+            관리자 페이지
+          </span>
+        </button>
+      </Link>
     </div>
     // </div>
   );

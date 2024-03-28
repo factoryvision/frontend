@@ -1,28 +1,10 @@
+"use client";
 import Link from 'next/link';
 import { ChangeEvent, useState } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
 
-const MenuBar = () => {
-    return (         
-    <div className="bg-white h-screen lg:w-60 flex flex-col justify-start">
-        <img src="/logo.png" className="w-full" />
-        <div className="text-blue text-xl p-4">메뉴1</div>
-        <div className="text-blue text-xl p-4">메뉴2</div>        
-      </div>
-    );
-};
-
-const TopBar = () => {
-    return (         
-      <div className="bg-white w-screen lg:w-300 lg:h-16 flex flex-col items-center justify-center">
-        상단 바
-      </div>
-    );
-};
-
-
-export default function LoginPage() {
+const ManagerHome = () => {
     
     return (
         <div className="flex flex-col">
@@ -49,23 +31,27 @@ export default function LoginPage() {
                     <div className="flex flex-row mt-5 ml-10 gap-10">
                         
                         <div className="flex flex-row w-[13rem] h-20 bg-white rounded-lg">
-                            <img src="/mngimg1.png" className="h-full ml-3" />
+                            <Link href="/manager/userInfo">
+                                <img src="/mngimg1.png" className="h-full ml-3" />
+                            </Link>
                             <div className="flex items-center justify-center">사용자 정보</div>
                         </div>
 
                         <div className="flex flex-row w-[13rem] h-20 bg-white rounded-lg">
-                            <img src="/mngimg2.png" className="h-full ml-3" />
-                            <div className="flex items-center justify-center">사용자 정보</div>
+                            <Link href="/manager/alram">
+                                <img src="/mngimg2.png" className="h-full ml-3" />
+                            </Link>
+                            <div className="flex items-center justify-center">호출 알람 현황</div>
                         </div>
 
                         <div className="flex flex-row w-[13rem] h-20 bg-white rounded-lg">
                             <img src="/mngimg4.png" className="h-full ml-3" />
-                            <div className="flex items-center justify-center">사용자 정보</div>
+                            <div className="flex items-center justify-center">실기산 탐지 현황</div>
                         </div>
 
                         <div className="flex flex-row w-[13rem] h-20 bg-white rounded-lg">
                             <img src="/mngimg3.png" className="h-full ml-3" />
-                            <div className="flex items-center justify-center">사용자 정보</div>
+                            <div className="flex items-center justify-center">영상 정보 현황</div>
                         </div>
 
                     </div>
@@ -77,9 +63,7 @@ export default function LoginPage() {
                             <span>순서</span> <span>상태</span> <span>정확도</span> <span>시간</span> <span>안내메세지 전송 속도</span> 
                         </div>
                         <hr className="border-gray-300 mt-3" />
-                    </div>
-
-                    
+                    </div>                    
                     
 
                 </div>
@@ -92,3 +76,5 @@ export default function LoginPage() {
        
     );
 }
+
+export default ManagerHome;

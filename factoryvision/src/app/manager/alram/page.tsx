@@ -3,30 +3,27 @@ import Link from 'next/link';
 import { ChangeEvent, useState, useEffect } from "react";
 import Sidebar from "@/app/components/sidebar";
 import Header from "@/app/components/header";
-import { useRouter } from "next/navigation";
 
 
-const UserInfo = () => {
+const Alram = () => {
 
-    const [users, setUsers] = useState([]);
-    const router = useRouter();
+    const [alrams, setAlrams] = useState([]);
 
     const currentPage = 2;
     const totalPages = 5
 
-    interface UserInfo {
-        name: string;
-        email: string;
-        nickname: string;
-        phone: string;    
+    interface AlramInfo {        
         userId: string;
+        name: string;
+        phone: string;        
+        createdAt: string;
       }
 
-    useEffect(() => {
+      useEffect(() => {
         // 사용자 데이터를 가져오는 비동기 함수
-        const fetchUserData = async () => {
+        const fetchAlramData = async () => {
             try {
-                const response = await fetch("http://localhost:8080/factoryvision/admin/userInfo", {
+                const response = await fetch("http://localhost:8080/factoryvision/admin/emergency", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -35,18 +32,14 @@ const UserInfo = () => {
                 });
                 const data = await response.json();
                 console.log("전체 사용자 정보",response);
-                setUsers(data); // 사용자 데이터를 상태에 설정
+                setAlrams(data); // 사용자 데이터를 상태에 설정
             } catch (error) {
-
-                console.error('전체 사용자 정보 가져오기 실패:', error);
-                alert('권한이 없습니다. 사용자 정보를 가져올 수 없습니다.');
-                router.push("/manager/home");
+                console.error('Error fetching user data:', error);
             }
         };
 
-        fetchUserData(); // 데이터 가져오기 함수 호출
+        fetchAlramData(); // 데이터 가져오기 함수 호출
     }, []);
-
     
     return (
         <div className="flex flex-col">
@@ -64,30 +57,29 @@ const UserInfo = () => {
 
                 <div className="flex flex-col p-3">
                     
-                    {/* 여기에 화면 구현 */}
+                    {/* 여기에 화면 구현 */}                   
                     
-                    <div className="text-blue-500 p-3 ml-10 mt-5" style={{ borderBottom: '4px solid blue', display: 'inline-block', width: '70px' }}>관리자</div>
 
+                    <div>
+                        <img src="/realtime.png" className="w-[8rem] mt-3 ml-3" />
+                    </div>
+                    
 
-                    <div className="text-blue-500 mt-10 ml-10 bold">출력결과</div>
+                    <div className="text-blue-500 mt-5 ml-10 bold">호출 알람 조회</div>
 
-                    <div className='flex flex-col bg-white w-[60rem] h-[30rem] mt-4 ml-10'>
-                        <div className='text-gray-500 flex flex-row gap-20  ml-5 mt-5'> 
-                            <span>순서</span> <span>이름</span> <span>닉네임</span> <span>전화번호</span> <span>이메일</span> <span>아이디</span> 
+                    <div className='flex flex-col bg-white w-[60rem] h-[20rem] mt-2 ml-10'>
+                        <div className='text-gray-500 flex flex-row gap-20  ml-7 mt-5'> 
+                            <span>순서</span> <span>이름</span> <span>전화번호</span> <span>요청 시간</span>  
                         </div>
                         <hr className="border-gray-300 mt-3" />
-                        {users.map((user: UserInfo, index) => (
+                        {alrams.map((user: AlramInfo, index) => (
                             <div key={index} className="flex flex-row ml-5 mt-3 gap-20">
-                                <span>{index + 1}</span> {/* 순서 */}
-                                <span>{user.name}</span> {/* 이름 */}
-                                <span>{user.nickname}</span> {/* 닉네임 */}
-                                <span>{user.phone}</span> {/* 전화번호 */}
-                                <span>{user.email}</span> {/* 이메일 */}
-                                <span>{user.userId}</span> {/* 아이디 */}
+                                <span>{index + 1}</span> {/* 순서 */}                                  
+                                <span>{user.name || '-'}</span> {/* 이름 */}                                                         
+                                <span>{user.phone || ' 000-0000   '}</span> {/* 전화번호 */}
+                                <span>{user.createdAt || '-'}</span> {/* 요청 시간 */}                                     
                             </div>
                         ))}
-
-
 
                     </div>
 
@@ -121,12 +113,10 @@ const UserInfo = () => {
 
                 </div>
 
-
-
             </div>
         </div>
 
        
     );
 }
-export default UserInfo;
+export default Alram;
